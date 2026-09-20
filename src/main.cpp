@@ -88,8 +88,37 @@ int main ()
                 ImGui::PopStyleVar();
 
 
+                ImGui::Button("Normal");
+
+                ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5.0f);
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 40.0f));
+
+                ImGui::Button("Big Button");
+
+                ImGui::PopStyleVar(2);
 
 
+                ImGui::Text("Normal Spacing");
+
+                ImGui::Button("Button 1");
+                ImGui::Button("Button 2");
+                ImGui::Button("Button 3");
+
+                ImGui::Spacing();
+
+                ImGui::Text("Large Spacing");
+
+                ImGui::PushStyleVar(
+                        ImGuiStyleVar_ItemSpacing,
+                        ImVec2(0.0f, 30.0f)
+                );
+
+                ImGui::Button("Button A");
+                ImGui::SameLine();
+                ImGui::Button("Button B");
+                ImGui::Button("Button C");
+
+                ImGui::PopStyleVar();
 
 
 
