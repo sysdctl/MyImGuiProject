@@ -7,6 +7,31 @@
 
 #include <algorithm>
 
+void SetupTheme()
+{
+        ImGuiStyle& style = ImGui::GetStyle();
+
+        // Style
+        style.WindowRounding = 10.0f;
+        style.FrameRounding = 5.0f;
+        style.WindowPadding = ImVec2(15.0f, 15.0f);
+        style.FramePadding = ImVec2(8.0f, 6.0f);
+        style.ItemSpacing = ImVec2(8.0f, 10.0f);
+
+        // Colors
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1804f, 0.1804f, 0.1804f, 1.0f);
+
+        style.Colors[ImGuiCol_Text] = ImVec4(0.6863f, 0.6863f, 0.6941f, 1.0f);
+
+        style.Colors[ImGuiCol_Button] = ImVec4(0.2373f, 0.2373f, 0.2451f, 1.0f);
+
+        style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.3373f, 0.3373f, 0.3451f, 1.0f);
+
+        style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.2073f, 0.2073f, 0.2051f, 1.0f);
+
+        style.Colors[ImGuiCol_Border] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+}
+
 int main ()
 {
         // -------------------------
@@ -48,20 +73,10 @@ int main ()
         // -------------------------
         // Main Loop
         // -------------------------
+        SetupTheme();
 
-        ImGuiStyle& style = ImGui::GetStyle();
-        style.WindowRounding = 20.0f;
-        style.WindowPadding = ImVec2(50.0f, 10.0f);
-        style.WindowBorderSize = 10.0f;
-        style.FramePadding = ImVec2(20.0f, 30.0f);
-        style.FrameRounding = 10.0f;
-        style.ItemSpacing = ImVec2(20.0f, 40.0f);
-        style.Colors[ImGuiCol_WindowBg] = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
-        style.Colors[ImGuiCol_Text] = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
-        style.Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 1.0f, 1.0f);
-        style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
-        style.Colors[ImGuiCol_ButtonActive] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-        style.Colors[ImGuiCol_Border] = ImVec4(1.0f, 0.0f, 1.0f, 1.0f);
+
+
 
         while (!glfwWindowShouldClose(window))
         {
