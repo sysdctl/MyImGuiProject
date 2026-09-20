@@ -48,6 +48,12 @@ int main ()
         // Main Loop
         // -------------------------
 
+        
+        std::string name = "PlayerOne";
+        int age = 100;
+        int level = 1;
+        
+
         while (!glfwWindowShouldClose(window))
         {
                 glfwPollEvents();
@@ -61,7 +67,7 @@ int main ()
                 ImGui::SetNextWindowPos(ImVec2(0, 0));
                 ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
                 ImGui::Begin(
-                        "My First Window",
+                        "Counter",
                         nullptr,
                         ImGuiWindowFlags_NoTitleBar |
                         ImGuiWindowFlags_NoResize |
@@ -70,14 +76,26 @@ int main ()
 
                 // ---- Elements ---- //
 
-                
-                ImGui::Text("Hello Dear ImGui!");
 
-                if (ImGui::Button("Click Me"))
+
+                ImGui::Text("Name: %s", name.c_str());
+                ImGui::Text("Age: %d", age);
+                ImGui::Text("Level: %d", level);
+
+                if (ImGui::Button("Level Up"))
                 {
-                std::cout << "Button clicked!\n";
+                        level++;
+                }
+                if (ImGui::Button("Level Down"))
+                {
+                        level--;
+                }
+                if (ImGui::Button("Reset Level"))
+                {
+                        level = 0;
                 }
 
+                
 
                 // -------------------------// Render // ------------------------- //
 
