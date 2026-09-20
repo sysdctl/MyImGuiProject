@@ -5,6 +5,7 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
+#include <algorithm>
 
 int main ()
 {
@@ -102,6 +103,12 @@ int main ()
                 {
                         level = 0;
                 }
+
+                ImGui::Spacing();
+
+                level = std::clamp(level, 0.0f, 100.0f);
+                ImGui::Text("Level Progress: %.1f%%", level);
+                ImGui::ProgressBar(level / 100.0f);
 
                 ImGui::Spacing();
                 ImGui::Separator();
