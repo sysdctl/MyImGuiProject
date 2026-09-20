@@ -83,18 +83,29 @@ int main ()
                 ImGui::InputInt("Age", &age);
                 ImGui::InputInt("Level", &level);
 
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+
+
                 if (ImGui::Button("Level Up"))
                 {
                         level++;
                 }
+                ImGui::SameLine();
                 if (ImGui::Button("Level Down"))
                 {
                         level--;
                 }
+                ImGui::SameLine();
                 if (ImGui::Button("Reset Level"))
                 {
                         level = 0;
                 }
+
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
                 
                 ImGui::Checkbox("isAlive", &isAlive);
                 if (isAlive)
@@ -110,6 +121,7 @@ int main ()
                 {
                         isAlive = false;
                 }
+                ImGui::SameLine();
                 if (ImGui::Button("Revive Player"))
                 {
                         isAlive = true;
