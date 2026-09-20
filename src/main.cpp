@@ -50,27 +50,7 @@ int main ()
         // -------------------------
 
         
-        char name[64] = "PlayerOne";
-        int age = 100;
-        float level = 1.0f;
-        bool isAlive = true;
-
-        int selectedClass = 0;
-        const char* classes[] = {
-                "Warrior",
-                "Mage",
-                "Archer",
-                "Rogue"
-        };
-
-        int difficulty = 0;
         
-        float playerColor[] = { 1.0f, 0.0f, 0.0f };
-        float playerColor4[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-
-        ImVec4 normalColor = ImVec4(0.0f, 0.0f, 1.0f, 1.0f);
-        ImVec4 hoverColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
-        ImVec4 activeColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
 
         while (!glfwWindowShouldClose(window))
         {
@@ -96,146 +76,23 @@ int main ()
 
 
 
-                ImGui::InputText("Name", name, IM_ARRAYSIZE(name));
-                ImGui::DragInt("Age", &age, 1.0f, 0, 200);
-                ImGui::DragFloat("Level", &level, 0.5f, 0.0f, 100.0f);
-                ImGui::ListBox("Class", &selectedClass, classes, IM_ARRAYSIZE(classes), 3);
 
-                switch (selectedClass)
-                {
-                        case 0:
-                                ImGui::Text("Class: Warrior");
-                                ImGui::Text("Ability: Strong Attack");
-                                break;
-                        case 1:
-                                ImGui::Text("Class: Mage");
-                                ImGui::Text("Ability: Fireball");
-                                break;
-                        case 2:
-                                ImGui::Text("Class: Archer");
-                                ImGui::Text("Ability: Long Range Attack");
-                                break;
-                        case 3:
-                                ImGui::Text("Class: Rogue");
-                                ImGui::Text("Ability: Fast Attack");
-                                break;
-                }       
 
-                ImGui::Spacing();
-                ImGui::Separator();
-                ImGui::Spacing();
 
-                switch (difficulty)
-                {
-                        case 0:
-                                ImGui::Text("Difficulty : Easy");
-                                break;
-                        case 1:
-                                ImGui::Text("Difficulty : Normal");
-                                break;
-                        case 2:
-                                ImGui::Text("Difficulty : Hard");
-                                break;
-                }
+                ImGui::Button("Normal Button");
 
-                ImGui::RadioButton("Easy", &difficulty, 0);
-                ImGui::SameLine();
-                ImGui::RadioButton("Normal", &difficulty, 1);
-                ImGui::SameLine();
-                ImGui::RadioButton("Hard", &difficulty, 2);
+                ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5.0f);
 
-                ImGui::Spacing();
-                ImGui::Separator();
-                ImGui::Spacing();
+                ImGui::Button("Rounded Button");
 
-                if (ImGui::Button("Level Up"))
-                {
-                        level++;
-                }
-                ImGui::SameLine();
-                if (ImGui::Button("Level Down"))
-                {
-                        level--;
-                }
-                ImGui::SameLine();
-                if (ImGui::Button("Reset Level"))
-                {
-                        level = 0;
-                }
+                ImGui::PopStyleVar();
 
-                ImGui::Spacing();
 
-                level = std::clamp(level, 0.0f, 100.0f);
-                ImGui::Text("Level Progress: %.1f%%", level);
-                ImGui::ProgressBar(level / 100.0f);
 
-                ImGui::Spacing();
-                ImGui::Separator();
-                ImGui::Spacing();
-                
-                ImGui::Checkbox("isAlive", &isAlive);
-                if (isAlive)
-                {
-                        ImGui::Text("Player is alive");
-                }
-                else
-                {
-                        ImGui::Text("Player is dead");
-                }
 
-                if (ImGui::Button("Kill Player"))
-                {
-                        isAlive = false;
-                }
-                ImGui::SameLine();
-                if (ImGui::Button("Revive Player"))
-                {
-                        isAlive = true;
-                }
 
-                ImGui::Spacing();
-                ImGui::Separator();
-                ImGui::Spacing();
 
-                ImGui::ColorEdit3("Player Color", playerColor);
-                ImGui::ColorEdit4("Player Color4", playerColor4);
 
-                ImGui::Spacing();
-
-                ImVec4 playerColor4Vec(playerColor4[0], playerColor4[1], playerColor4[2], playerColor4[3]);
-                ImGui::PushStyleColor(ImGuiCol_Button, playerColor4Vec);
-                if (ImGui::Button("Attack"))
-                {
-                        ImGui::Text("Attack!");
-                }
-                ImGui::PopStyleColor();
-                ImGui::PushStyleColor(ImGuiCol_Text, playerColor4Vec);
-
-                ImGui::Text("Player Name: Hamed");
-                ImGui::Text("Player is Ready!");
-
-                ImGui::PopStyleColor();
-                ImGui::PushStyleColor(ImGuiCol_FrameBg, playerColor4Vec);
-
-                ImGui::InputText("Name", name, IM_ARRAYSIZE(name));
-                ImGui::SliderFloat("Level", &level, 0.0f, 100.0f);
-
-                ImGui::PopStyleColor();
-
-                ImGui::ColorEdit4("Normal Color", (float*)&normalColor);
-                ImGui::ColorEdit4("Hover Color", (float*)&hoverColor);
-                ImGui::ColorEdit4("Active Color", (float*)&activeColor);
-
-                ImGui::PushStyleColor(ImGuiCol_Button, normalColor);
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, hoverColor);
-                ImGui::PushStyleColor(ImGuiCol_ButtonActive, activeColor);
-
-                if (ImGui::Button("Attack1"))
-                {
-                ImGui::Text("Attack!");
-                }
-
-                ImGui::PopStyleColor(3);
 
                 // -------------------------// Render // ------------------------- //
 
