@@ -80,8 +80,8 @@ int main ()
 
 
                 ImGui::InputText("Name", name, IM_ARRAYSIZE(name));
-                ImGui::SliderInt("Age", &age, 0, 200);
-                ImGui::SliderFloat("Level", &level, 0.0f, 100.0f);
+                ImGui::DragInt("Age", &age, 1.0f, 0, 200);
+                ImGui::DragFloat("Level", &level, 0.5f, 0.0f, 100.0f);
 
                 ImGui::Spacing();
                 ImGui::Separator();
