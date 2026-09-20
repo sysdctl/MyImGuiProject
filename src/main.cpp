@@ -64,6 +64,12 @@ int main ()
 
                 ImGui::SetNextWindowPos(ImVec2(0, 0));
                 ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+                
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(50.0f, 20.0f));
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 50.0f);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 30.0f);
+                ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+
                 ImGui::Begin(
                         "Counter",
                         nullptr,
@@ -79,46 +85,14 @@ int main ()
 
 
 
-                ImGui::Button("Normal Button");
+                        
 
-                ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5.0f);
+                        ImGui::Text("Hello Player");
+                        ImGui::Button("Attack");
 
-                ImGui::Button("Rounded Button");
+                        
 
-                ImGui::PopStyleVar();
-
-
-                ImGui::Button("Normal");
-
-                ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5.0f);
-                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10.0f, 40.0f));
-
-                ImGui::Button("Big Button");
-
-                ImGui::PopStyleVar(2);
-
-
-                ImGui::Text("Normal Spacing");
-
-                ImGui::Button("Button 1");
-                ImGui::Button("Button 2");
-                ImGui::Button("Button 3");
-
-                ImGui::Spacing();
-
-                ImGui::Text("Large Spacing");
-
-                ImGui::PushStyleVar(
-                        ImGuiStyleVar_ItemSpacing,
-                        ImVec2(0.0f, 30.0f)
-                );
-
-                ImGui::Button("Button A");
-                ImGui::SameLine();
-                ImGui::Button("Button B");
-                ImGui::Button("Button C");
-
-                ImGui::PopStyleVar();
+                
 
 
 
@@ -126,6 +100,8 @@ int main ()
                 // -------------------------// Render // ------------------------- //
 
                 ImGui::End();
+                ImGui::PopStyleColor();
+                ImGui::PopStyleVar(3);
 
                 ImGui::Render();
                 
