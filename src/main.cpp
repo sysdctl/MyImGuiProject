@@ -64,6 +64,9 @@ int main ()
         };
 
         int difficulty = 0;
+        
+        float playerColor[] = { 1.0f, 0.0f, 0.0f };
+        float playerColor4[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 
         while (!glfwWindowShouldClose(window))
         {
@@ -92,7 +95,7 @@ int main ()
                 ImGui::InputText("Name", name, IM_ARRAYSIZE(name));
                 ImGui::DragInt("Age", &age, 1.0f, 0, 200);
                 ImGui::DragFloat("Level", &level, 0.5f, 0.0f, 100.0f);
-                ImGui::Combo("Class", &selectedClass, classes, IM_ARRAYSIZE(classes));
+                ImGui::ListBox("Class", &selectedClass, classes, IM_ARRAYSIZE(classes), 3);
 
                 switch (selectedClass)
                 {
@@ -185,7 +188,29 @@ int main ()
                 {
                         isAlive = true;
                 }
-                
+
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+
+                ImGui::ColorEdit3("Player Color", playerColor);
+                ImGui::ColorEdit4("Player Color4", playerColor4);
+
+                ImGui::Spacing();
+
+                ImVec4 playerColor4Vec(playerColor4[0], playerColor4[1], playerColor4[2], playerColor4[3]);
+                ImGui::PushStyleColor(ImGuiCol_Button, playerColor4Vec);
+                if (ImGui::Button("Attack"))
+                {
+                        ImGui::Text("Attack!");
+                }
+                ImGui::PopStyleColor();
+                ImGui::PushStyleColor(ImGuiCol_Text, playerColor4Vec);
+
+                ImGui::Text("Player Name: Hamed");
+                ImGui::Text("Player is Ready!");
+
+                ImGui::PopStyleColor();
 
                 // -------------------------// Render // ------------------------- //
 
