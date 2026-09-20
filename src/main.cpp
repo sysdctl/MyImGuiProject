@@ -211,6 +211,12 @@ int main ()
                 ImGui::Text("Player is Ready!");
 
                 ImGui::PopStyleColor();
+                ImGui::PushStyleColor(ImGuiCol_FrameBg, playerColor4Vec);
+
+                ImGui::InputText("Name", name, IM_ARRAYSIZE(name));
+                ImGui::SliderFloat("Level", &level, 0.0f, 100.0f);
+
+                ImGui::PopStyleColor();
 
                 // -------------------------// Render // ------------------------- //
 
