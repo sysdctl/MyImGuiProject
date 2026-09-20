@@ -30,6 +30,8 @@ void SetupTheme()
         style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.2073f, 0.2073f, 0.2051f, 1.0f);
 
         style.Colors[ImGuiCol_Border] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+        style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.1176f, 0.1176f, 0.1176f, 1.0f);
 }
 
 int main ()
@@ -88,8 +90,11 @@ int main ()
 
                 // -------------------------// GUI // ------------------------- //
 
-                ImGui::SetNextWindowPos(ImVec2(0, 0));
-                ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+                ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight()));
+                ImGui::SetNextWindowSize(ImVec2(
+                        ImGui::GetIO().DisplaySize.x,
+                        ImGui::GetIO().DisplaySize.y - ImGui::GetFrameHeight()
+                ));
                 
                 ImGui::Begin(
                         "Counter",
