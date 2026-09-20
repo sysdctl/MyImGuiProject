@@ -54,7 +54,16 @@ int main ()
         int age = 100;
         float level = 1.0f;
         bool isAlive = true;
-        
+
+        int selectedClass = 0;
+        const char* classes[] = {
+                "Warrior",
+                "Mage",
+                "Archer",
+                "Rogue"
+        };
+
+        int difficulty = 0;
 
         while (!glfwWindowShouldClose(window))
         {
@@ -83,11 +92,54 @@ int main ()
                 ImGui::InputText("Name", name, IM_ARRAYSIZE(name));
                 ImGui::DragInt("Age", &age, 1.0f, 0, 200);
                 ImGui::DragFloat("Level", &level, 0.5f, 0.0f, 100.0f);
+                ImGui::Combo("Class", &selectedClass, classes, IM_ARRAYSIZE(classes));
+
+                switch (selectedClass)
+                {
+                        case 0:
+                                ImGui::Text("Class: Warrior");
+                                ImGui::Text("Ability: Strong Attack");
+                                break;
+                        case 1:
+                                ImGui::Text("Class: Mage");
+                                ImGui::Text("Ability: Fireball");
+                                break;
+                        case 2:
+                                ImGui::Text("Class: Archer");
+                                ImGui::Text("Ability: Long Range Attack");
+                                break;
+                        case 3:
+                                ImGui::Text("Class: Rogue");
+                                ImGui::Text("Ability: Fast Attack");
+                                break;
+                }       
 
                 ImGui::Spacing();
                 ImGui::Separator();
                 ImGui::Spacing();
 
+                switch (difficulty)
+                {
+                        case 0:
+                                ImGui::Text("Difficulty : Easy");
+                                break;
+                        case 1:
+                                ImGui::Text("Difficulty : Normal");
+                                break;
+                        case 2:
+                                ImGui::Text("Difficulty : Hard");
+                                break;
+                }
+
+                ImGui::RadioButton("Easy", &difficulty, 0);
+                ImGui::SameLine();
+                ImGui::RadioButton("Normal", &difficulty, 1);
+                ImGui::SameLine();
+                ImGui::RadioButton("Hard", &difficulty, 2);
+
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
 
                 if (ImGui::Button("Level Up"))
                 {
