@@ -68,6 +68,10 @@ int main ()
         float playerColor[] = { 1.0f, 0.0f, 0.0f };
         float playerColor4[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 
+        ImVec4 normalColor = ImVec4(0.0f, 0.0f, 1.0f, 1.0f);
+        ImVec4 hoverColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+        ImVec4 activeColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+
         while (!glfwWindowShouldClose(window))
         {
                 glfwPollEvents();
@@ -217,6 +221,21 @@ int main ()
                 ImGui::SliderFloat("Level", &level, 0.0f, 100.0f);
 
                 ImGui::PopStyleColor();
+
+                ImGui::ColorEdit4("Normal Color", (float*)&normalColor);
+                ImGui::ColorEdit4("Hover Color", (float*)&hoverColor);
+                ImGui::ColorEdit4("Active Color", (float*)&activeColor);
+
+                ImGui::PushStyleColor(ImGuiCol_Button, normalColor);
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, hoverColor);
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive, activeColor);
+
+                if (ImGui::Button("Attack1"))
+                {
+                ImGui::Text("Attack!");
+                }
+
+                ImGui::PopStyleColor(3);
 
                 // -------------------------// Render // ------------------------- //
 
