@@ -49,8 +49,19 @@ int main ()
         // Main Loop
         // -------------------------
 
-        
-        
+        ImGuiStyle& style = ImGui::GetStyle();
+        style.WindowRounding = 20.0f;
+        style.WindowPadding = ImVec2(50.0f, 10.0f);
+        style.WindowBorderSize = 10.0f;
+        style.FramePadding = ImVec2(20.0f, 30.0f);
+        style.FrameRounding = 10.0f;
+        style.ItemSpacing = ImVec2(20.0f, 40.0f);
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_Text] = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 1.0f, 1.0f);
+        style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+        style.Colors[ImGuiCol_ButtonActive] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+        style.Colors[ImGuiCol_Border] = ImVec4(1.0f, 0.0f, 1.0f, 1.0f);
 
         while (!glfwWindowShouldClose(window))
         {
@@ -65,11 +76,6 @@ int main ()
                 ImGui::SetNextWindowPos(ImVec2(0, 0));
                 ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
                 
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(50.0f, 20.0f));
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 50.0f);
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 30.0f);
-                ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-
                 ImGui::Begin(
                         "Counter",
                         nullptr,
@@ -100,8 +106,6 @@ int main ()
                 // -------------------------// Render // ------------------------- //
 
                 ImGui::End();
-                ImGui::PopStyleColor();
-                ImGui::PopStyleVar(3);
 
                 ImGui::Render();
                 
