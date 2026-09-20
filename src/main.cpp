@@ -52,6 +52,7 @@ int main ()
         char name[64] = "PlayerOne";
         int age = 100;
         int level = 1;
+        bool isAlive = true;
         
 
         while (!glfwWindowShouldClose(window))
@@ -95,6 +96,24 @@ int main ()
                         level = 0;
                 }
                 
+                ImGui::Checkbox("isAlive", &isAlive);
+                if (isAlive)
+                {
+                        ImGui::Text("Player is alive");
+                }
+                else
+                {
+                        ImGui::Text("Player is dead");
+                }
+
+                if (ImGui::Button("Kill Player"))
+                {
+                        isAlive = false;
+                }
+                if (ImGui::Button("Revive Player"))
+                {
+                        isAlive = true;
+                }
                 
 
                 // -------------------------// Render // ------------------------- //
