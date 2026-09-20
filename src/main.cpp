@@ -49,7 +49,7 @@ int main ()
         // -------------------------
 
         
-        std::string name = "PlayerOne";
+        char name[64] = "PlayerOne";
         int age = 100;
         int level = 1;
         
@@ -78,9 +78,9 @@ int main ()
 
 
 
-                ImGui::Text("Name: %s", name.c_str());
-                ImGui::Text("Age: %d", age);
-                ImGui::Text("Level: %d", level);
+                ImGui::InputText("Name", name, IM_ARRAYSIZE(name));
+                ImGui::InputInt("Age", &age);
+                ImGui::InputInt("Level", &level);
 
                 if (ImGui::Button("Level Up"))
                 {
@@ -94,7 +94,7 @@ int main ()
                 {
                         level = 0;
                 }
-
+                
                 
 
                 // -------------------------// Render // ------------------------- //
