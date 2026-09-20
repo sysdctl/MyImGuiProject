@@ -7,5 +7,13 @@
 
 int main ()
 {
-        
+        ImGui::CreateContext();
+        ImGui::NewFrame();
+        ImGui::Begin("My First Window");
+
+        ImGui::Text("Hello Dear ImGui!");
+
+        ImGui::End();
+        ImGui::Render();
+        ImGui::DestroyContext();
 }
