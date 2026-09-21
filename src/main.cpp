@@ -145,51 +145,71 @@ int main ()
                 ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x /2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
 
                 ImGui::Begin("Status");
+                        ImGui::BeginChild("", ImVec2(50, 300));
 
-                        ImGui::BeginGroup();
-                        ImGui::Text("Player Status");
+                                ImGui::Text("Player Status");
 
-                        ImGui::Text("Alive");
-                        ImGui::Text("Difficulty");
-                        ImGui::Text("Level : %.1f", level);
+                                ImGui::Text("Alive");
+                                ImGui::Text("Difficulty");
+                                ImGui::Text("Level : %.1f", level);
 
-                        ImGui::EndGroup();
+                        ImGui::EndChild();
                         ImGui::SameLine();
-                        ImGui::BeginGroup();
+                        ImGui::BeginChild("", ImVec2(50, 300));
 
-                        ImGui::Text("Actions");
-                        ImGui::Button("Kill");
-                        ImGui::Button("Resize");
-                        ImGui::Button("Reset");
+                                ImGui::Text("Actions");
+                                ImGui::Button("Kill");
+                                ImGui::Button("Resize");
+                                ImGui::Button("Reset");
 
-                        ImGui::EndGroup();
+                        ImGui::EndChild();
+                        ImGui::End();
 
-                ImGui::End();
+                        ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x / 2 + 12.5f, 25.0f));
+                        ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x / 2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y / 2 - 25.0f - 12.5f));
 
-                ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x /2 + 12.5f, 25.0f));
-                ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x /2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
+                        ImGui::Begin("Inventory");
 
-                ImGui::Begin("Inventory");
 
-                        ImGui::Text("Sword");
+
+
+
+
+                        ImGui::BeginChild("##Child1", ImVec2((ImGui::GetIO().DisplaySize.x / 2 - 25.0f - 12.5f) / 2 - 25, (ImGui::GetIO().DisplaySize.y / 2 - 25.0f - 12.5f)/2));
+
+                        ImGui::Text("Items");
+                        ImGui::Text("- Sword");
+                        ImGui::Text("- Potion");
+                        ImGui::Text("- Shield");
+                        ImGui::Text("- Armor");
+                        ImGui::Text("- Bow");
+
+                        ImGui::EndChild();
                         ImGui::SameLine();
-                        ImGui::Text("Potion");
+                        ImGui::BeginChild("##Child2", ImVec2((ImGui::GetIO().DisplaySize.x / 2 - 25.0f - 12.5f) / 2 - 25, (ImGui::GetIO().DisplaySize.y / 2 - 25.0f - 12.5f) / 2));
+
+                        ImGui::Text("Selected Item");
+                        ImGui::Text("Name:");
+                        ImGui::Text("Damage:");
+                        ImGui::Text("Weight:");
+                        ImGui::Button("[Equip]");
                         ImGui::SameLine();
-                        ImGui::Text("Shield");
+                        ImGui::Button("[Drop]");
 
-                        ImGui::Text("Use");
-                        ImGui::SameLine();
-                        ImGui::Text("Drop");
-                        ImGui::SameLine();
-                        ImGui::Text("Sell");
-
-                ImGui::End();
+                        ImGui::EndChild();
 
 
-                ImGui::SetNextWindowPos(ImVec2(25.0f, ImGui::GetIO().DisplaySize.y /2 + 12.5f));
-                ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x - 25.0f - 25.0f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
 
-                ImGui::Begin("Status");
+                        
+
+
+
+                        ImGui::End();
+
+                        ImGui::SetNextWindowPos(ImVec2(25.0f, ImGui::GetIO().DisplaySize.y / 2 + 12.5f));
+                        ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x - 25.0f - 25.0f, ImGui::GetIO().DisplaySize.y / 2 - 25.0f - 12.5f));
+
+                        ImGui::Begin("Status1");
 
                         ImGui::Text("Alive");
                         ImGui::Text("Difficulty");
@@ -206,7 +226,6 @@ int main ()
                 
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
                 glfwSwapBuffers(window);
-
         }
 
         // -------------------------
