@@ -6,6 +6,7 @@
 #include "backends/imgui_impl_opengl3.h"
 
 #include <algorithm>
+#include <vector>
 
 void SetupTheme()
 {
@@ -81,7 +82,23 @@ int main ()
         
         int level = 1;
 
-        while (!glfwWindowShouldClose(window))
+        struct Item
+        {
+                std::string name;
+                std::string type;
+                int amount;
+        };
+        std::vector<Item> inventory =
+        {
+                {"Sword", "Weapon", 1},
+                {"Potion", "Heal", 5},
+                {"Shield", "Armor", 1},
+                {"Bow", "Weapon", 1}
+        };
+
+        int selectedItem = -1;
+
+            while (!glfwWindowShouldClose(window))
         {
                 glfwPollEvents();
 
@@ -170,6 +187,10 @@ int main ()
 
                         ImGui::Begin("Inventory");
 
+
+
+
+                        
                         if (ImGui::BeginTable("InventoryTable", 3))
                         {
 
@@ -179,51 +200,49 @@ int main ()
 
                                 ImGui::TableHeadersRow();
 
-                                // row 1
-                                ImGui::TableNextRow();
-                                ImGui::TableNextColumn();
-                                ImGui::Text("Sword");
+                                for (int i = 0; i < (int)inventory.size(); i++)
+                                {
+                                        ImGui::TableNextRow();
+                                        bool selected = (selectedItem == i);
+                                        ImGui::TableNextColumn();
+                                        // ImGui::Text("%s", inventory[i].name.c_str());
+                                        if (ImGui::Selectable(inventory[i].name.c_str(), selected, ImGuiSelectableFlags_SpanAllColumns))
+                                        {
+                                                selectedItem = i;
+                                        }
 
-                                ImGui::TableNextColumn();
-                                ImGui::Text("Weapon");
+                                        ImGui::TableNextColumn();
+                                        ImGui::Text("%s", inventory[i].type.c_str());
 
-                                ImGui::TableNextColumn();
-                                ImGui::Text("1");
+                                        ImGui::TableNextColumn();
+                                        ImGui::Text("%d", inventory[i].amount);
 
-                                // row 2
-                                ImGui::TableNextRow();
-                                ImGui::TableNextColumn();
-                                ImGui::Text("Potion");
-
-                                ImGui::TableNextColumn();
-                                ImGui::Text("Heal");
-
-                                ImGui::TableNextColumn();
-                                ImGui::Text("5");
-
-                                // row 3
-                                ImGui::TableNextRow();
-                                ImGui::TableNextColumn();
-                                ImGui::Text("Shield");
-
-                                ImGui::TableNextColumn();
-                                ImGui::Text("Armor");
-
-                                ImGui::TableNextColumn();
-                                ImGui::Text("1");
-
-                                // row 4
-                                ImGui::TableNextRow();
-                                ImGui::TableNextColumn();
-                                ImGui::Text("Bow");
-
-                                ImGui::TableNextColumn();
-                                ImGui::Text("Weapon");
-
-                                ImGui::TableNextColumn();
-                                ImGui::Text("1");
+                                }
 
                                 ImGui::EndTable();
+                        }
+
+
+                        if (selectedItem >= 0)
+                        {
+                                ImGui::Text("Selected Item : ");
+                                ImGui::Text("Name: %s", inventory[selectedItem].name.c_str());
+                                ImGui::Text("Type: %s", inventory[selectedItem].type.c_str());
+                                ImGui::Text("Amount: %d", inventory[selectedItem].amount);
+
+                                if (ImGui::Button("Equip"))
+                                {
+
+                                }
+                                ImGui::SameLine();
+                                if (ImGui::Button("Drop"))
+                                {
+
+                                }
+                        }
+                        else
+                        {
+                                ImGui::Text("No Item Selected");
                         }
 
 
