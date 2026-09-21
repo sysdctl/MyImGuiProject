@@ -170,37 +170,65 @@ int main ()
 
                         ImGui::Begin("Inventory");
 
+                        if (ImGui::BeginTable("InventoryTable", 3))
+                        {
+
+                                ImGui::TableSetupColumn("Item");
+                                ImGui::TableSetupColumn("Type");
+                                ImGui::TableSetupColumn("Amount");
+
+                                ImGui::TableHeadersRow();
+
+                                // row 1
+                                ImGui::TableNextRow();
+                                ImGui::TableNextColumn();
+                                ImGui::Text("Sword");
+
+                                ImGui::TableNextColumn();
+                                ImGui::Text("Weapon");
+
+                                ImGui::TableNextColumn();
+                                ImGui::Text("1");
+
+                                // row 2
+                                ImGui::TableNextRow();
+                                ImGui::TableNextColumn();
+                                ImGui::Text("Potion");
+
+                                ImGui::TableNextColumn();
+                                ImGui::Text("Heal");
+
+                                ImGui::TableNextColumn();
+                                ImGui::Text("5");
+
+                                // row 3
+                                ImGui::TableNextRow();
+                                ImGui::TableNextColumn();
+                                ImGui::Text("Shield");
+
+                                ImGui::TableNextColumn();
+                                ImGui::Text("Armor");
+
+                                ImGui::TableNextColumn();
+                                ImGui::Text("1");
+
+                                // row 4
+                                ImGui::TableNextRow();
+                                ImGui::TableNextColumn();
+                                ImGui::Text("Bow");
+
+                                ImGui::TableNextColumn();
+                                ImGui::Text("Weapon");
+
+                                ImGui::TableNextColumn();
+                                ImGui::Text("1");
+
+                                ImGui::EndTable();
+                        }
 
 
 
 
-
-                        ImGui::BeginChild("##Child1", ImVec2((ImGui::GetIO().DisplaySize.x / 2 - 25.0f - 12.5f) / 2 - 25, (ImGui::GetIO().DisplaySize.y / 2 - 25.0f - 12.5f)/2));
-
-                        ImGui::Text("Items");
-                        ImGui::Text("- Sword");
-                        ImGui::Text("- Potion");
-                        ImGui::Text("- Shield");
-                        ImGui::Text("- Armor");
-                        ImGui::Text("- Bow");
-
-                        ImGui::EndChild();
-                        ImGui::SameLine();
-                        ImGui::BeginChild("##Child2", ImVec2((ImGui::GetIO().DisplaySize.x / 2 - 25.0f - 12.5f) / 2 - 25, (ImGui::GetIO().DisplaySize.y / 2 - 25.0f - 12.5f) / 2));
-
-                        ImGui::Text("Selected Item");
-                        ImGui::Text("Name:");
-                        ImGui::Text("Damage:");
-                        ImGui::Text("Weight:");
-                        ImGui::Button("[Equip]");
-                        ImGui::SameLine();
-                        ImGui::Button("[Drop]");
-
-                        ImGui::EndChild();
-
-
-
-                        
 
 
 
