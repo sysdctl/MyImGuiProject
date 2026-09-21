@@ -237,7 +237,8 @@ int main ()
                                 ImGui::SameLine();
                                 if (ImGui::Button("Drop"))
                                 {
-
+                                        inventory.erase(inventory.begin() + selectedItem);
+                                        selectedItem = -1;
                                 }
                         }
                         else
