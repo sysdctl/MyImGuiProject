@@ -98,6 +98,8 @@ int main ()
 
         int selectedItem = -1;
 
+        int isProcessing = false;
+
             while (!glfwWindowShouldClose(window))
         {
                 glfwPollEvents();
@@ -237,8 +239,7 @@ int main ()
                                 ImGui::SameLine();
                                 if (ImGui::Button("Drop"))
                                 {
-                                        inventory.erase(inventory.begin() + selectedItem);
-                                        selectedItem = -1;
+                                        ImGui::OpenPopup("Drop Confirm");
                                 }
                         }
                         else
@@ -246,11 +247,28 @@ int main ()
                                 ImGui::Text("No Item Selected");
                         }
 
+                        if (ImGui::BeginPopupModal("Drop Confirm"))
+                        {
+                                ImGui::Text("are you sure ?");
 
+                                ImGui::BeginDisabled(isProcessing);
+                                if (ImGui::Button("yes"))
+                                {
+                                        isProcessing = true;
+                                        inventory.erase(inventory.begin() + selectedItem);
+                                        selectedItem = -1;
+                                        isProcessing = false;
+                                        ImGui::CloseCurrentPopup();
+                                }
+                                ImGui::SameLine();
+                                if (ImGui::Button("no"))
+                                {
+                                        ImGui::CloseCurrentPopup();
+                                }
+                                ImGui::EndDisabled();
 
-
-
-
+                                ImGui::EndPopup();
+                        }
 
                         ImGui::End();
 
