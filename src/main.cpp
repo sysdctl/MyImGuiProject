@@ -78,7 +78,8 @@ int main ()
         SetupTheme();
 
         std::string menuStatus = "";
-
+        
+        int level = 1;
 
         while (!glfwWindowShouldClose(window))
         {
@@ -137,43 +138,47 @@ int main ()
                         ImGui::EndMainMenuBar();
                 }
 
-                ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight()));
-                ImGui::SetNextWindowSize(ImVec2(
-                        ImGui::GetIO().DisplaySize.x,
-                        ImGui::GetIO().DisplaySize.y - ImGui::GetFrameHeight()
-                ));
                 
-                ImGui::Begin(
-                        "Counter",
-                        nullptr,
-                        ImGuiWindowFlags_NoTitleBar |
-                        ImGuiWindowFlags_NoResize |
-                        ImGuiWindowFlags_NoMove
-                        );
+                
 
-                // ---- Elements ---- //
+                ImGui::SetNextWindowPos(ImVec2(25.0f ,25.0f));
+                ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x /2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
 
+                ImGui::Begin("Player");
 
-
-
-
-
-                        
-
-                        ImGui::Text("Hello Player");
+                        ImGui::Text("Player Name: Hamed");
+                        ImGui::Text("Level: %.1f", level);
                         ImGui::Button("Attack");
-                        ImGui::Text("%s", menuStatus.c_str());
-
-                        
-
-                
-
-
-
-
-                // -------------------------// Render // ------------------------- //
 
                 ImGui::End();
+
+                ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x /2 + 12.5f, 25.0f));
+                ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x /2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
+
+                ImGui::Begin("Inventory");
+
+                        ImGui::Text("Sword");
+                        ImGui::Text("Potion");
+                        ImGui::Text("Shield");
+
+                ImGui::End();
+
+
+                ImGui::SetNextWindowPos(ImVec2(25.0f, ImGui::GetIO().DisplaySize.y /2 + 12.5f));
+                ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x - 25.0f - 25.0f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
+
+                ImGui::Begin("Status");
+
+                        ImGui::Text("Alive");
+                        ImGui::Text("Difficulty");
+                        ImGui::Text("Menu Status");
+
+                ImGui::End();
+
+                
+
+
+
 
                 ImGui::Render();
                 
