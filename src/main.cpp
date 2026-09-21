@@ -144,11 +144,25 @@ int main ()
                 ImGui::SetNextWindowPos(ImVec2(25.0f ,25.0f));
                 ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x /2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
 
-                ImGui::Begin("Player");
+                ImGui::Begin("Status");
 
-                        ImGui::Text("Player Name: Hamed");
-                        ImGui::Text("Level: %.1f", level);
-                        ImGui::Button("Attack");
+                        ImGui::BeginGroup();
+                        ImGui::Text("Player Status");
+
+                        ImGui::Text("Alive");
+                        ImGui::Text("Difficulty");
+                        ImGui::Text("Level : %.1f", level);
+
+                        ImGui::EndGroup();
+                        ImGui::SameLine();
+                        ImGui::BeginGroup();
+
+                        ImGui::Text("Actions");
+                        ImGui::Button("Kill");
+                        ImGui::Button("Resize");
+                        ImGui::Button("Reset");
+
+                        ImGui::EndGroup();
 
                 ImGui::End();
 
@@ -158,8 +172,16 @@ int main ()
                 ImGui::Begin("Inventory");
 
                         ImGui::Text("Sword");
+                        ImGui::SameLine();
                         ImGui::Text("Potion");
+                        ImGui::SameLine();
                         ImGui::Text("Shield");
+
+                        ImGui::Text("Use");
+                        ImGui::SameLine();
+                        ImGui::Text("Drop");
+                        ImGui::SameLine();
+                        ImGui::Text("Sell");
 
                 ImGui::End();
 
