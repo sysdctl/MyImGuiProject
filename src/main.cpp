@@ -77,7 +77,7 @@ int main ()
         // -------------------------
         SetupTheme();
 
-
+        std::string menuStatus = "";
 
 
         while (!glfwWindowShouldClose(window))
@@ -89,6 +89,53 @@ int main ()
                 ImGui::NewFrame();
 
                 // -------------------------// GUI // ------------------------- //
+
+                // ---- MenuBar ---- //
+
+                if (ImGui::BeginMainMenuBar())
+                {
+                        if (ImGui::BeginMenu("File"))
+                        {
+                                if (ImGui::MenuItem("New"))
+                                {
+                                        menuStatus = "New";
+                                }
+                                if (ImGui::MenuItem("Save"))
+                                {
+                                        menuStatus = "Save";
+                                }
+                                if (ImGui::MenuItem("Exit"))
+                                {
+                                        menuStatus = "Exit";
+                                }
+                                ImGui::EndMenu();
+                        }
+                        if (ImGui::BeginMenu("Player"))
+                        {
+                                if (ImGui::MenuItem("Level Up"))
+                                {
+                                        menuStatus = "Level Up";
+                                }
+                                if (ImGui::MenuItem("Level Down"))
+                                {
+                                        menuStatus = "Level Down";
+                                }
+                                if (ImGui::MenuItem("Reset"))
+                                {
+                                        menuStatus = "Reset";
+                                }
+                                ImGui::EndMenu();
+                        }
+                        if (ImGui::BeginMenu("Help"))
+                        {
+                                if (ImGui::MenuItem("About"))
+                                {
+                                        menuStatus = "About";
+                                }
+                                ImGui::EndMenu();
+                        }
+                        ImGui::EndMainMenuBar();
+                }
 
                 ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetFrameHeight()));
                 ImGui::SetNextWindowSize(ImVec2(
@@ -115,6 +162,7 @@ int main ()
 
                         ImGui::Text("Hello Player");
                         ImGui::Button("Attack");
+                        ImGui::Text("%s", menuStatus.c_str());
 
                         
 
