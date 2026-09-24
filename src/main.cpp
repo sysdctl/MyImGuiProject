@@ -100,7 +100,7 @@ int main ()
 
         int isProcessing = false;
         int showPopup = true;
-
+        int showPopupID1 = false;
 
             while (!glfwWindowShouldClose(window))
         {
@@ -222,6 +222,31 @@ int main ()
                                                 ImGui::Text("%d", inventory[i].amount);
                                                 ImGui::EndTooltip();
                                         }
+                                        if (ImGui::BeginPopupContextItem())
+                                        {
+                                                if (ImGui::MenuItem("Equip"))
+                                                {
+                                                        selectedItem = i;
+                                                }
+
+                                                if (ImGui::MenuItem("Inspect"))
+                                                {
+                                                        selectedItem = i;
+                                                }
+
+                                                if (ImGui::MenuItem("Drop"))
+                                                {
+                                                        selectedItem = i;
+                                                        showPopupID1 = true;
+                                                }
+
+                                                if (ImGui::Button("hello"))
+                                                {
+                                                        selectedItem = i;
+                                                }
+
+                                                ImGui::EndPopup();
+                                        }
 
                                         ImGui::TableNextColumn();
                                         ImGui::Text("%s", inventory[i].type.c_str());
@@ -230,10 +255,6 @@ int main ()
                                         ImGui::Text("%d", inventory[i].amount);
 
                                 }
-
-                                
-
-
                                 ImGui::EndTable();
                         }
 
@@ -266,7 +287,10 @@ int main ()
 
                         
 
-
+                        if (showPopupID1)
+                        {
+                                ImGui::OpenPopup("Drop Confirm");
+                        }
                         if (showPopup && ImGui::BeginPopupModal("Drop Confirm"))
                         {
                                 ImGui::Text("are you sure ?");
@@ -290,11 +314,12 @@ int main ()
                                 }
                                 ImGui::EndDisabled();
 
+                                showPopupID1 = false;
                                 ImGui::EndPopup();
                         }
                         else 
                         {
-                                ImGui::CloseCurrentPopup();
+                                showPopupID1 = false;
                         }
 
                         ImGui::End();
