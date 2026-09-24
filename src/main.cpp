@@ -104,6 +104,9 @@ int main ()
         bool showPopupID1 = false;
 
         int equippedItem = -1;
+
+        ImVec2 boxPos(100, 100); 
+        ImVec2 previousMove(0, 0);
         
         while (!glfwWindowShouldClose(window))
         {
@@ -371,79 +374,33 @@ int main ()
 
 
                 ImGui::SetNextWindowSize(ImVec2(500, 300));
-                ImGui::Begin("Input Debugger");
-
-                ImGui::Text("Mouse X: %.1f", io.MousePos.x);
-                ImGui::Text("Mouse Y: %.1f", io.MousePos.y);
+                ImGui::Begin("Mouse Debugger");
 
 
-                ImGui::Text("-> ");
-                ImGui::SameLine();
-                if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-                {
-                        ImGui::Text("IsMouseClicked");
-                }
-                else
-                {
-                        ImGui::Text("");
-                }
-
-                ImGui::Text("-> ");
-                ImGui::SameLine();
                 if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
                 {
-                        ImGui::Text("IsMouseDown");
+                        ImVec2 delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Left);
+                        ImGui::Text("box X: %.1f", boxPos.x);
+                        ImGui::Text("box Y: %.1f", boxPos.y);
+
+                        ImVec2 movement;
+                        movement.x = delta.x - previousMove.x;
+                        movement.y = delta.y - previousMove.y;
+
+                        boxPos.x += movement.x;
+                        boxPos.y += movement.y;
+
+                        previousMove = delta;
                 }
                 else
                 {
-                        ImGui::Text("");
-                }
-
-                ImGui::Text("-> ");
-                ImGui::SameLine();
-                if (ImGui::IsKeyPressed(ImGuiKey_Space))
-                {
-                        ImGui::Text("IsKeyPressed");
-                }
-                else
-                {
-                        ImGui::Text("");
-                }
-
-                ImGui::Text("-> ");
-                ImGui::SameLine();
-                if (ImGui::IsKeyDown(ImGuiKey_Space))
-                {
-                        ImGui::Text("IsKeyDown");
-                }
-                else
-                {
-                        
-                        ImGui::Text("");
-                }
-
-                
-
-
-                if (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))
-                {
-                        ImGui::Text("Save");
-                }
-                if (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z))
-                {
-                        ImGui::Text("Undo");
-                }
-                if (ImGui::IsKeyPressed(ImGuiKey_Escape))
-                {
-                        ImGui::Text("Escape");
+                        ImGui::Text("box X: %.1f", boxPos.x);
+                        ImGui::Text("box Y: %.1f", boxPos.y);
+                        previousMove = ImVec2(0, 0);
                 }
 
 
                 ImGui::End();
-
-
-
-
 
                 ImGui::Render();
 
