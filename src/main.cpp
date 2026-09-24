@@ -60,10 +60,10 @@ int main ()
         // -------------------------
 
         IMGUI_CHECKVERSION();
-        ImGuiIO& io = ImGui::GetIO();
-        (void)io;
-        ImGui::CreateContext();
 
+        ImGui::CreateContext();
+        ImGuiIO &io = ImGui::GetIO();
+        (void)io;
         ImGui::StyleColorsDark();
 
         // -------------------------
@@ -104,8 +104,8 @@ int main ()
         bool showPopupID1 = false;
 
         int equippedItem = -1;
-
-            while (!glfwWindowShouldClose(window))
+        
+        while (!glfwWindowShouldClose(window))
         {
                 glfwPollEvents();
 
@@ -367,13 +367,71 @@ int main ()
 
                 ImGui::End();
 
+
+
+
+                ImGui::SetNextWindowSize(ImVec2(500, 300));
+                ImGui::Begin("Input Debugger");
+
+                ImGui::Text("Mouse X: %.1f", io.MousePos.x);
+                ImGui::Text("Mouse Y: %.1f", io.MousePos.y);
+
+
+                ImGui::Text("-> ");
+                ImGui::SameLine();
+                if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+                {
+                        ImGui::Text("IsMouseClicked");
+                }
+                else
+                {
+                        ImGui::Text("");
+                }
+
+                ImGui::Text("-> ");
+                ImGui::SameLine();
+                if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+                {
+                        ImGui::Text("IsMouseDown");
+                }
+                else
+                {
+                        ImGui::Text("");
+                }
+
+                ImGui::Text("-> ");
+                ImGui::SameLine();
+                if (ImGui::IsKeyPressed(ImGuiKey_Space))
+                {
+                        ImGui::Text("IsKeyPressed");
+                }
+                else
+                {
+                        ImGui::Text("");
+                }
+
+                ImGui::Text("-> ");
+                ImGui::SameLine();
+                if (ImGui::IsKeyDown(ImGuiKey_Space))
+                {
+                        ImGui::Text("IsKeyDown");
+                }
+                else
+                {
+                        
+                        ImGui::Text("");
+                }
+
                 
+
+                ImGui::End();
+
 
 
 
 
                 ImGui::Render();
-                
+
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
                 glfwSwapBuffers(window);
         }
