@@ -424,6 +424,21 @@ int main ()
 
                 
 
+
+                if (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))
+                {
+                        ImGui::Text("Save");
+                }
+                if (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z))
+                {
+                        ImGui::Text("Undo");
+                }
+                if (ImGui::IsKeyPressed(ImGuiKey_Escape))
+                {
+                        ImGui::Text("Escape");
+                }
+
+
                 ImGui::End();
 
 
