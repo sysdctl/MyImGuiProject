@@ -87,20 +87,23 @@ int main ()
                 std::string name;
                 std::string type;
                 int amount;
+                bool equipped;
         };
         std::vector<Item> inventory =
         {
-                {"Sword", "Weapon", 1},
-                {"Potion", "Heal", 5},
-                {"Shield", "Armor", 1},
-                {"Bow", "Weapon", 1}
+                {"Sword", "Weapon", 1, false},
+                {"Potion", "Heal", 5, false},
+                {"Shield", "Armor", 1, false},
+                {"Bow", "Weapon", 1, false}
         };
 
         int selectedItem = -1;
 
-        int isProcessing = false;
-        int showPopup = true;
-        int showPopupID1 = false;
+        bool isProcessing = false;
+        bool showPopup = true;
+        bool showPopupID1 = false;
+
+        int equippedItem = -1;
 
             while (!glfwWindowShouldClose(window))
         {
@@ -227,6 +230,12 @@ int main ()
                                                 if (ImGui::MenuItem("Equip"))
                                                 {
                                                         selectedItem = i;
+                                                        if (equippedItem >= 0)
+                                                        {
+                                                                inventory[equippedItem].equipped = false;
+                                                        }
+                                                        equippedItem = selectedItem;
+                                                        inventory[selectedItem].equipped = true;
                                                 }
 
                                                 if (ImGui::MenuItem("Inspect"))
@@ -265,10 +274,25 @@ int main ()
                                 ImGui::Text("Name: %s", inventory[selectedItem].name.c_str());
                                 ImGui::Text("Type: %s", inventory[selectedItem].type.c_str());
                                 ImGui::Text("Amount: %d", inventory[selectedItem].amount);
+                                ImGui::Text("Status: %s", (inventory[selectedItem].equipped) ? "Equipped" : "Not Equipped");
 
                                 if (ImGui::Button("Equip"))
                                 {
-
+                                        if (equippedItem >= 0)
+                                        {
+                                                inventory[equippedItem].equipped = false;
+                                        }
+                                        equippedItem = selectedItem;
+                                        inventory[selectedItem].equipped = true;
+                                }
+                                ImGui::SameLine();
+                                if (ImGui::Button("UnEquip"))
+                                {
+                                        if (selectedItem == equippedItem)
+                                        {
+                                                inventory[selectedItem].equipped = false;
+                                                equippedItem = -1;
+                                        }
                                 }
                                 ImGui::SameLine();
                                 if (ImGui::Button("Drop"))
@@ -299,8 +323,16 @@ int main ()
                                 if (ImGui::Button("yes"))
                                 {
                                         isProcessing = true;
+                                        if (equippedItem == selectedItem)
+                                        {
+                                                equippedItem = -1;
+                                        }
+                                        else if (equippedItem > selectedItem)
+                                        {
+                                                equippedItem--;
+                                        }
                                         inventory.erase(inventory.begin() + selectedItem);
-                                        selectedItem = -1;
+
                                         isProcessing = false;
 
                                         showPopup = false;
