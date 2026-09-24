@@ -214,6 +214,14 @@ int main ()
                                         {
                                                 selectedItem = i;
                                         }
+                                        if (ImGui::IsItemHovered())
+                                        {
+                                                ImGui::BeginTooltip();
+                                                ImGui::Text("%s", inventory[i].name.c_str());
+                                                ImGui::Text("%s", inventory[i].type.c_str());
+                                                ImGui::Text("%d", inventory[i].amount);
+                                                ImGui::EndTooltip();
+                                        }
 
                                         ImGui::TableNextColumn();
                                         ImGui::Text("%s", inventory[i].type.c_str());
@@ -222,6 +230,9 @@ int main ()
                                         ImGui::Text("%d", inventory[i].amount);
 
                                 }
+
+                                
+
 
                                 ImGui::EndTable();
                         }
