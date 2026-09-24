@@ -99,6 +99,8 @@ int main ()
         int selectedItem = -1;
 
         int isProcessing = false;
+        int showPopup = true;
+
 
             while (!glfwWindowShouldClose(window))
         {
@@ -224,7 +226,7 @@ int main ()
                                 ImGui::EndTable();
                         }
 
-
+                        
                         if (selectedItem >= 0)
                         {
                                 ImGui::Text("Selected Item : ");
@@ -240,6 +242,10 @@ int main ()
                                 if (ImGui::Button("Drop"))
                                 {
                                         ImGui::OpenPopup("Drop Confirm");
+                                        if (!showPopup)
+                                        {
+                                                std::cout << "random function";
+                                        }
                                 }
                         }
                         else
@@ -247,7 +253,10 @@ int main ()
                                 ImGui::Text("No Item Selected");
                         }
 
-                        if (ImGui::BeginPopupModal("Drop Confirm"))
+                        
+
+
+                        if (showPopup && ImGui::BeginPopupModal("Drop Confirm"))
                         {
                                 ImGui::Text("are you sure ?");
 
@@ -258,16 +267,23 @@ int main ()
                                         inventory.erase(inventory.begin() + selectedItem);
                                         selectedItem = -1;
                                         isProcessing = false;
+
+                                        showPopup = false;
                                         ImGui::CloseCurrentPopup();
                                 }
                                 ImGui::SameLine();
                                 if (ImGui::Button("no"))
                                 {
+                                        showPopup = false;
                                         ImGui::CloseCurrentPopup();
                                 }
                                 ImGui::EndDisabled();
 
                                 ImGui::EndPopup();
+                        }
+                        else 
+                        {
+                                ImGui::CloseCurrentPopup();
                         }
 
                         ImGui::End();
