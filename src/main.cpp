@@ -105,8 +105,7 @@ int main ()
 
         int equippedItem = -1;
 
-        ImVec2 boxPos(100, 100); 
-        ImVec2 previousMove(0, 0);
+        ImVec2 boxPos(150, 80); 
         
         while (!glfwWindowShouldClose(window))
         {
@@ -370,38 +369,39 @@ int main ()
 
                 ImGui::End();
 
-
-
-
                 ImGui::SetNextWindowSize(ImVec2(500, 300));
                 ImGui::Begin("Mouse Debugger");
 
 
-                if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+
+
+
+
+
+                ImGui::SetCursorPos(boxPos);
+                ImGui::InvisibleButton("inviButton", ImVec2(100, 100));
+
+                if (ImGui::IsItemActive())
                 {
-                        ImVec2 delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Left);
-                        ImGui::Text("box X: %.1f", boxPos.x);
-                        ImGui::Text("box Y: %.1f", boxPos.y);
-
-                        ImVec2 movement;
-                        movement.x = delta.x - previousMove.x;
-                        movement.y = delta.y - previousMove.y;
-
-                        boxPos.x += movement.x;
-                        boxPos.y += movement.y;
-
-                        previousMove = delta;
+                        auto mouseDeltaPerFrame = ImGui::GetIO().MouseDelta;
+                        boxPos.x += mouseDeltaPerFrame.x;
+                        boxPos.y += mouseDeltaPerFrame.y;
                 }
-                else
+
+                ImDrawList* drawList = ImGui::GetWindowDrawList();
+                drawList->AddRectFilled(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 0, 0, 255));
+
+                if (ImGui::IsItemActive())
                 {
-                        ImGui::Text("box X: %.1f", boxPos.x);
-                        ImGui::Text("box Y: %.1f", boxPos.y);
-                        previousMove = ImVec2(0, 0);
+                        ImGui::Text("Dragging Box...");
                 }
+
+
+
+
 
 
                 ImGui::End();
-
                 ImGui::Render();
 
                 ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
