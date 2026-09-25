@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <functional>
 
 void SetupTheme()
 {
@@ -33,6 +34,39 @@ void SetupTheme()
         style.Colors[ImGuiCol_Border] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
 
         style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.1176f, 0.1176f, 0.1176f, 1.0f);
+}
+
+
+class Player
+{
+        private:
+                int level = 0;
+
+        public:
+                
+                void levelUp ()
+                {
+                        level++;
+                }
+
+                void levelDown ()
+                {
+                        level--;
+                }
+
+                int getLevel () const
+                {
+                        return level;
+                }
+};
+
+
+void myButton (const char* text, std::function<void()> callback)
+{
+        if (ImGui::Button(text))
+        {
+                callback();
+        }
 }
 
 int main ()
@@ -77,39 +111,8 @@ int main ()
         // Main Loop
         // -------------------------
         SetupTheme();
-
-        std::string menuStatus = "";
         
-        int level = 1;
-
-        struct Item
-        {
-                std::string name;
-                std::string type;
-                int amount;
-                bool equipped;
-        };
-        std::vector<Item> inventory =
-        {
-                {"Sword", "Weapon", 1, false},
-                {"Potion", "Heal", 5, false},
-                {"Shield", "Armor", 1, false},
-                {"Bow", "Weapon", 1, false}
-        };
-
-        int selectedItem = -1;
-
-        bool isProcessing = false;
-        bool showPopup = true;
-        bool showPopupID1 = false;
-
-        int equippedItem = -1;
-
-        ImVec2 boxPos(100, 100); 
-        ImVec2 boxSize(200, 120);
-
-        ImVec2 resizeHandleSize(15, 15);
-        bool resizing = false;
+        Player player;
         
         while (!glfwWindowShouldClose(window))
         {
@@ -121,333 +124,24 @@ int main ()
 
                 // -------------------------// GUI // ------------------------- //
 
-                // ---- MenuBar ---- //
-
-                if (ImGui::BeginMainMenuBar())
-                {
-                        if (ImGui::BeginMenu("File"))
-                        {
-                                if (ImGui::MenuItem("New"))
-                                {
-                                        menuStatus = "New";
-                                }
-                                if (ImGui::MenuItem("Save"))
-                                {
-                                        menuStatus = "Save";
-                                }
-                                if (ImGui::MenuItem("Exit"))
-                                {
-                                        menuStatus = "Exit";
-                                }
-                                ImGui::EndMenu();
-                        }
-                        if (ImGui::BeginMenu("Player"))
-                        {
-                                if (ImGui::MenuItem("Level Up"))
-                                {
-                                        menuStatus = "Level Up";
-                                }
-                                if (ImGui::MenuItem("Level Down"))
-                                {
-                                        menuStatus = "Level Down";
-                                }
-                                if (ImGui::MenuItem("Reset"))
-                                {
-                                        menuStatus = "Reset";
-                                }
-                                ImGui::EndMenu();
-                        }
-                        if (ImGui::BeginMenu("Help"))
-                        {
-                                if (ImGui::MenuItem("About"))
-                                {
-                                        menuStatus = "About";
-                                }
-                                ImGui::EndMenu();
-                        }
-                        ImGui::EndMainMenuBar();
-                }
-
-                
-                
-
                 ImGui::SetNextWindowPos(ImVec2(25.0f ,25.0f));
                 ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x /2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
 
-                ImGui::Begin("Status");
-                        ImGui::BeginChild("", ImVec2(50, 300));
-
-                                ImGui::Text("Player Status");
-
-                                ImGui::Text("Alive");
-                                ImGui::Text("Difficulty");
-                                ImGui::Text("Level : %.1f", level);
-
-                        ImGui::EndChild();
-                        ImGui::SameLine();
-                        ImGui::BeginChild("", ImVec2(50, 300));
-
-                                ImGui::Text("Actions");
-                                ImGui::Button("Kill");
-                                ImGui::Button("Resize");
-                                ImGui::Button("Reset");
-
-                        ImGui::EndChild();
-                        ImGui::End();
-
-                        ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x / 2 + 12.5f, 25.0f));
-                        ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x / 2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y / 2 - 25.0f - 12.5f));
-
-                        ImGui::Begin("Inventory");
-
-
-
-
-                        
-                        if (ImGui::BeginTable("InventoryTable", 3))
-                        {
-
-                                ImGui::TableSetupColumn("Item");
-                                ImGui::TableSetupColumn("Type");
-                                ImGui::TableSetupColumn("Amount");
-
-                                ImGui::TableHeadersRow();
-
-                                for (int i = 0; i < (int)inventory.size(); i++)
-                                {
-                                        ImGui::TableNextRow();
-                                        bool selected = (selectedItem == i);
-                                        ImGui::TableNextColumn();
-                                        // ImGui::Text("%s", inventory[i].name.c_str());
-                                        if (ImGui::Selectable(inventory[i].name.c_str(), selected, ImGuiSelectableFlags_SpanAllColumns))
-                                        {
-                                                selectedItem = i;
-                                        }
-                                        if (ImGui::IsItemHovered())
-                                        {
-                                                ImGui::BeginTooltip();
-                                                ImGui::Text("%s", inventory[i].name.c_str());
-                                                ImGui::Text("%s", inventory[i].type.c_str());
-                                                ImGui::Text("%d", inventory[i].amount);
-                                                ImGui::EndTooltip();
-                                        }
-                                        if (ImGui::BeginPopupContextItem())
-                                        {
-                                                if (ImGui::MenuItem("Equip"))
-                                                {
-                                                        selectedItem = i;
-                                                        if (equippedItem >= 0)
-                                                        {
-                                                                inventory[equippedItem].equipped = false;
-                                                        }
-                                                        equippedItem = selectedItem;
-                                                        inventory[selectedItem].equipped = true;
-                                                }
-
-                                                if (ImGui::MenuItem("Inspect"))
-                                                {
-                                                        selectedItem = i;
-                                                }
-
-                                                if (ImGui::MenuItem("Drop"))
-                                                {
-                                                        selectedItem = i;
-                                                        showPopupID1 = true;
-                                                }
-
-                                                if (ImGui::Button("hello"))
-                                                {
-                                                        selectedItem = i;
-                                                }
-
-                                                ImGui::EndPopup();
-                                        }
-
-                                        ImGui::TableNextColumn();
-                                        ImGui::Text("%s", inventory[i].type.c_str());
-
-                                        ImGui::TableNextColumn();
-                                        ImGui::Text("%d", inventory[i].amount);
-
-                                }
-                                ImGui::EndTable();
-                        }
-
-                        
-                        if (selectedItem >= 0)
-                        {
-                                ImGui::Text("Selected Item : ");
-                                ImGui::Text("Name: %s", inventory[selectedItem].name.c_str());
-                                ImGui::Text("Type: %s", inventory[selectedItem].type.c_str());
-                                ImGui::Text("Amount: %d", inventory[selectedItem].amount);
-                                ImGui::Text("Status: %s", (inventory[selectedItem].equipped) ? "Equipped" : "Not Equipped");
-
-                                if (ImGui::Button("Equip"))
-                                {
-                                        if (equippedItem >= 0)
-                                        {
-                                                inventory[equippedItem].equipped = false;
-                                        }
-                                        equippedItem = selectedItem;
-                                        inventory[selectedItem].equipped = true;
-                                }
-                                ImGui::SameLine();
-                                if (ImGui::Button("UnEquip"))
-                                {
-                                        if (selectedItem == equippedItem)
-                                        {
-                                                inventory[selectedItem].equipped = false;
-                                                equippedItem = -1;
-                                        }
-                                }
-                                ImGui::SameLine();
-                                if (ImGui::Button("Drop"))
-                                {
-                                        ImGui::OpenPopup("Drop Confirm");
-                                        if (!showPopup)
-                                        {
-                                                std::cout << "random function";
-                                        }
-                                }
-                        }
-                        else
-                        {
-                                ImGui::Text("No Item Selected");
-                        }
-
+                ImGui::Begin("lambda");
                         
 
-                        if (showPopupID1)
-                        {
-                                ImGui::OpenPopup("Drop Confirm");
-                        }
-                        if (showPopup && ImGui::BeginPopupModal("Drop Confirm"))
-                        {
-                                ImGui::Text("are you sure ?");
-
-                                ImGui::BeginDisabled(isProcessing);
-                                if (ImGui::Button("yes"))
-                                {
-                                        isProcessing = true;
-                                        if (equippedItem == selectedItem)
-                                        {
-                                                equippedItem = -1;
-                                        }
-                                        else if (equippedItem > selectedItem)
-                                        {
-                                                equippedItem--;
-                                        }
-                                        inventory.erase(inventory.begin() + selectedItem);
-
-                                        isProcessing = false;
-
-                                        showPopup = false;
-                                        ImGui::CloseCurrentPopup();
-                                }
-                                ImGui::SameLine();
-                                if (ImGui::Button("no"))
-                                {
-                                        showPopup = false;
-                                        ImGui::CloseCurrentPopup();
-                                }
-                                ImGui::EndDisabled();
-
-                                showPopupID1 = false;
-                                ImGui::EndPopup();
-                        }
-                        else 
-                        {
-                                showPopupID1 = false;
-                        }
-
-                        ImGui::End();
-
-                        ImGui::SetNextWindowPos(ImVec2(25.0f, ImGui::GetIO().DisplaySize.y / 2 + 12.5f));
-                        ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x - 25.0f - 25.0f, ImGui::GetIO().DisplaySize.y / 2 - 25.0f - 12.5f));
-
-                        ImGui::Begin("Status1");
-
-                        ImGui::Text("Alive");
-                        ImGui::Text("Difficulty");
-                        ImGui::Text("Menu Status");
-
-                ImGui::End();
-
-                ImGui::SetNextWindowSize(ImVec2(500, 300));
-                ImGui::Begin("Mouse Debugger");
-
-
-
                 
 
 
-                
-                
-                ImVec2 resizeHandlePos;
-                resizeHandlePos.x = boxPos.x + boxSize.x - resizeHandleSize.x;
-                resizeHandlePos.y = boxPos.y + boxSize.y - resizeHandleSize.y;
-
-                ImGui::SetCursorPos(resizeHandlePos);
-                ImGui::InvisibleButton("ResizeHandle", resizeHandleSize);
-
-                if (ImGui::IsItemActive())
-                {
-                        auto mouseDeltaPerFrame = ImGui::GetIO().MouseDelta;
-                        
-                        boxSize.x += mouseDeltaPerFrame.x;
-                        boxSize.y += mouseDeltaPerFrame.y;
-                }
-                ImVec2 GetItemRectMin = ImGui::GetItemRectMin();
-                ImVec2 GetItemRectMax = ImGui::GetItemRectMax();
-
-                ImVec2 windowSize2 = ImGui::GetWindowSize();
-                boxSize.x = std::clamp(boxSize.x, 50.0f, windowSize2.x);
-                boxSize.y = std::clamp(boxSize.y, 50.0f, windowSize2.y);
-
-                ImGui::Text("%f, %f", boxSize.x, boxSize.y);
+                myButton("LevelUp", [&player](){
+                        player.levelUp();
+                });
+                myButton("LevelDown", [&player](){
+                        player.levelDown();
+                });
+                ImGui::Text("Level: %d", player.getLevel());
 
 
-
-
-
-
-
-                ImGui::SetCursorPos(boxPos);
-                ImGui::InvisibleButton("inviButton", boxSize);
-
-                if (ImGui::IsItemActive())
-                {
-                        auto mouseDeltaPerFrame = ImGui::GetIO().MouseDelta;
-                        boxPos.x += mouseDeltaPerFrame.x;
-                        boxPos.y += mouseDeltaPerFrame.y;
-                }        
-                
-                ImVec2 windowSize1 = ImGui::GetWindowSize();
-                float maxX = windowSize1.x - boxSize.x;
-                float maxY = windowSize1.y - boxSize.y;
-
-                boxPos.x = std::clamp(boxPos.x, 0.0f, maxX);
-                boxPos.y = std::clamp(boxPos.y, 0.0f, maxY);
-
-                
-                ImDrawList* drawList = ImGui::GetWindowDrawList();
-                drawList->AddRectFilled(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 0, 0, 255));
-
-
-                if (ImGui::IsItemActive())
-                {
-                        ImGui::Text("Dragging Box... ");
-                }        
-
-                
-                
-
-
-
-                
-                ImDrawList* resizeHandleDrawList = ImGui::GetWindowDrawList();
-                resizeHandleDrawList->AddRectFilled(GetItemRectMin, GetItemRectMax, IM_COL32(0, 0, 255, 255));
-        
 
 
 
