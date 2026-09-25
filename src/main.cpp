@@ -39,10 +39,12 @@ void SetupTheme()
         style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.1176f, 0.1176f, 0.1176f, 1.0f);
 }
 
-void addEventButton(const char* label, std::function<void()> event){
+
+template <typename F, typename... Args>
+void addEventButton(const char* label, F event, Args&&... args){
         if (ImGui::Button(label))
         {
-                event();
+                std::invoke(std::forward<F>(event), std::forward<Args>(args)...);
         }
 }
 
@@ -89,8 +91,6 @@ int main ()
         // -------------------------
         SetupTheme();
         
-        Player player;
-
         while (!glfwWindowShouldClose(window))
         {
                 glfwPollEvents();
@@ -112,10 +112,11 @@ int main ()
                 addEventButton("level down", PlayerEvents::onLevelDown);
                 addEventButton("reset level", PlayerEvents::onReset);
 
+                addEventButton("add 5 level", PlayerEvents::onAdd5Level);
+                addEventButton("add x level", PlayerEvents::onAddLevel, 10);
 
-                
 
-                ImGui::Text("%d", player.getLevel());
+                ImGui::Text("%d", PlayerEvents::player.getLevel());
 
 
 
