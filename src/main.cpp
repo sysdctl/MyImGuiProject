@@ -54,6 +54,11 @@ class Player
                         level--;
                 }
 
+                void addLevel (int i)
+                {
+                        level += i;
+                }
+
                 int getLevel () const
                 {
                         return level;
@@ -61,11 +66,11 @@ class Player
 };
 
 
-void myButton (const char* text, std::function<void()> callback)
+void myButton (const char* text, int i, std::function<void(int)> callback)
 {
         if (ImGui::Button(text))
         {
-                callback();
+                callback(i);
         }
 }
 
@@ -133,14 +138,16 @@ int main ()
                 
 
 
-                myButton("LevelUp", [&player](){
-                        player.levelUp();
+                myButton("+1", 1, [&player](int i){
+                        player.addLevel(i);
                 });
-                myButton("LevelDown", [&player](){
-                        player.levelDown();
+                myButton("+5", 5, [&player](int i){
+                        player.addLevel(i);
+                });
+                myButton("+10", 10, [&player](int i){
+                        player.addLevel(i);
                 });
                 ImGui::Text("Level: %d", player.getLevel());
-
 
 
 
