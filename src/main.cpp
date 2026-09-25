@@ -105,8 +105,11 @@ int main ()
 
         int equippedItem = -1;
 
-        ImVec2 boxPos(150, 80); 
-        ImVec2 boxSize(100, 100);
+        ImVec2 boxPos(100, 100); 
+        ImVec2 boxSize(200, 120);
+
+        ImVec2 resizeHandleSize(15, 15);
+        bool resizing = false;
         
         while (!glfwWindowShouldClose(window))
         {
@@ -375,6 +378,36 @@ int main ()
 
 
 
+                
+
+
+                
+                
+                ImVec2 resizeHandlePos;
+                resizeHandlePos.x = boxPos.x + boxSize.x - resizeHandleSize.x;
+                resizeHandlePos.y = boxPos.y + boxSize.y - resizeHandleSize.y;
+
+                ImGui::SetCursorPos(resizeHandlePos);
+                ImGui::InvisibleButton("ResizeHandle", resizeHandleSize);
+
+                if (ImGui::IsItemActive())
+                {
+                        auto mouseDeltaPerFrame = ImGui::GetIO().MouseDelta;
+                        
+                        boxSize.x += mouseDeltaPerFrame.x;
+                        boxSize.y += mouseDeltaPerFrame.y;
+                }
+                ImVec2 GetItemRectMin = ImGui::GetItemRectMin();
+                ImVec2 GetItemRectMax = ImGui::GetItemRectMax();
+
+                ImVec2 windowSize2 = ImGui::GetWindowSize();
+                boxSize.x = std::clamp(boxSize.x, 50.0f, windowSize2.x);
+                boxSize.y = std::clamp(boxSize.y, 50.0f, windowSize2.y);
+
+                ImGui::Text("%f, %f", boxSize.x, boxSize.y);
+
+
+
 
 
 
@@ -387,13 +420,11 @@ int main ()
                         auto mouseDeltaPerFrame = ImGui::GetIO().MouseDelta;
                         boxPos.x += mouseDeltaPerFrame.x;
                         boxPos.y += mouseDeltaPerFrame.y;
-                }
+                }        
                 
-
-                ImVec2 windowSize = ImGui::GetWindowSize();
-
-                float maxX = windowSize.x - boxSize.x;
-                float maxY = windowSize.y - boxSize.y;
+                ImVec2 windowSize1 = ImGui::GetWindowSize();
+                float maxX = windowSize1.x - boxSize.x;
+                float maxY = windowSize1.y - boxSize.y;
 
                 boxPos.x = std::clamp(boxPos.x, 0.0f, maxX);
                 boxPos.y = std::clamp(boxPos.y, 0.0f, maxY);
@@ -406,15 +437,17 @@ int main ()
                 if (ImGui::IsItemActive())
                 {
                         ImGui::Text("Dragging Box... ");
-                }
+                }        
 
-                ImGui::Text("X: %.1f", boxPos.x);
-                ImGui::Text("Y: %.1f", boxPos.y);
-
-
+                
                 
 
 
+
+                
+                ImDrawList* resizeHandleDrawList = ImGui::GetWindowDrawList();
+                resizeHandleDrawList->AddRectFilled(GetItemRectMin, GetItemRectMax, IM_COL32(0, 0, 255, 255));
+        
 
 
 
