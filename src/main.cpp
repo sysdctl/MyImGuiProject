@@ -106,6 +106,7 @@ int main ()
         int equippedItem = -1;
 
         ImVec2 boxPos(150, 80); 
+        ImVec2 boxSize(100, 100);
         
         while (!glfwWindowShouldClose(window))
         {
@@ -379,7 +380,7 @@ int main ()
 
 
                 ImGui::SetCursorPos(boxPos);
-                ImGui::InvisibleButton("inviButton", ImVec2(100, 100));
+                ImGui::InvisibleButton("inviButton", boxSize);
 
                 if (ImGui::IsItemActive())
                 {
@@ -387,14 +388,31 @@ int main ()
                         boxPos.x += mouseDeltaPerFrame.x;
                         boxPos.y += mouseDeltaPerFrame.y;
                 }
+                
 
+                ImVec2 windowSize = ImGui::GetWindowSize();
+
+                float maxX = windowSize.x - boxSize.x;
+                float maxY = windowSize.y - boxSize.y;
+
+                boxPos.x = std::clamp(boxPos.x, 0.0f, maxX);
+                boxPos.y = std::clamp(boxPos.y, 0.0f, maxY);
+
+                
                 ImDrawList* drawList = ImGui::GetWindowDrawList();
                 drawList->AddRectFilled(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 0, 0, 255));
 
+
                 if (ImGui::IsItemActive())
                 {
-                        ImGui::Text("Dragging Box...");
+                        ImGui::Text("Dragging Box... ");
                 }
+
+                ImGui::Text("X: %.1f", boxPos.x);
+                ImGui::Text("Y: %.1f", boxPos.y);
+
+
+                
 
 
 
