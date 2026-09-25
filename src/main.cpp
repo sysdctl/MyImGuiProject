@@ -9,6 +9,9 @@
 #include <vector>
 #include <functional>
 
+#include "Player.hpp"
+#include "PlayerEvents.hpp"
+
 void SetupTheme()
 {
         ImGuiStyle& style = ImGui::GetStyle();
@@ -36,73 +39,10 @@ void SetupTheme()
         style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.1176f, 0.1176f, 0.1176f, 1.0f);
 }
 
-
-class Player
-{
-        private:
-                int level = 0;
-
-        public:
-                
-                void addLevel (int i)
-                {
-                        level += i;
-                }
-
-                void removeLevel (int i)
-                {
-                        level -= i;
-                }
-
-                void resetLevel ()
-                {
-                        level = 0;
-                }
-
-                int getLevel () const
-                {
-                        return level;
-                }
-};
-
-class PlayerController
-{
-        private:
-                Player& player;
-        public:
-                PlayerController (Player& player)
-                : player(player)
-                {}
-
-                void levelUp ()
-                {
-                        player.addLevel(1);
-                }
-
-                void levelDown ()
-                {
-                        player.removeLevel(1);
-                }
-
-                void reset ()
-                {
-                        player.resetLevel();
-                }
-};
-namespace PlayerControllerGUI {
-void addEventButton(const char* label, std::function<void()> event)
-{
+void addEventButton(const char* label, std::function<void()> event){
         if (ImGui::Button(label))
         {
                 event();
-        }
-}
-}
-void myButton (const char* name, std::function<void()> callback)
-{
-        if (ImGui::Button(name))
-        {
-                callback();
         }
 }
 
@@ -150,19 +90,7 @@ int main ()
         SetupTheme();
         
         Player player;
-        PlayerController playerController(player);
 
-        
-        std::function<void()> onLevelUp = [&playerController](){
-                playerController.levelUp();
-        };
-        std::function<void()> onLevelDown = [&playerController](){
-                playerController.levelDown();
-        };
-        std::function<void()> onReset = [&playerController](){
-                playerController.reset();
-        };
-        
         while (!glfwWindowShouldClose(window))
         {
                 glfwPollEvents();
@@ -180,47 +108,12 @@ int main ()
                         
 
                 
+                addEventButton("level up", PlayerEvents::onLevelUp);
+                addEventButton("level down", PlayerEvents::onLevelDown);
+                addEventButton("reset level", PlayerEvents::onReset);
 
 
-                if (ImGui::Button("level up"))
-                {
-                        onLevelUp();
-                }
-                if (ImGui::Button("level down"))
-                {
-                        onLevelDown();
-                }
-                if (ImGui::Button("reset level"))
-                {
-                        onReset();
-                }
-
-                PlayerControllerGUI::addEventButton("level up2", onLevelUp);
-                PlayerControllerGUI::addEventButton("level down2", onLevelDown);
-                PlayerControllerGUI::addEventButton("reset level2", onReset);
-
-                PlayerControllerGUI::addEventButton("level up3", [&playerController]{
-                        playerController.levelUp();
-                });
-                PlayerControllerGUI::addEventButton("level down3", [&playerController]{
-                        playerController.levelDown();
-                });
-                PlayerControllerGUI::addEventButton("reset level3", [&playerController]{
-                        playerController.reset();
-                });
-
-                if (ImGui::Button("level up4"))
-                {
-                        playerController.levelUp();
-                }
-                if (ImGui::Button("level down4"))
-                {
-                        playerController.levelDown();
-                }
-                if (ImGui::Button("reset level4"))
-                {
-                        playerController.reset();
-                }
+                
 
                 ImGui::Text("%d", player.getLevel());
 

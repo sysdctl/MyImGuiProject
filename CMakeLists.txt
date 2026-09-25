@@ -59,6 +59,11 @@ target_link_libraries(MyImGuiProject PRIVATE
 #=============== Has include API ===============#
 
 target_include_directories(imgui_lib PUBLIC
-    ${imgui_SOURCE_DIR}
-    ${imgui_SOURCE_DIR}/backends
+        ${imgui_SOURCE_DIR}
+        ${imgui_SOURCE_DIR}/backends
+)
+
+target_include_directories(MyImGuiProject
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
