@@ -44,19 +44,19 @@ class Player
 
         public:
                 
-                void levelUp ()
-                {
-                        level++;
-                }
-
-                void levelDown ()
-                {
-                        level--;
-                }
-
                 void addLevel (int i)
                 {
                         level += i;
+                }
+
+                void removeLevel (int i)
+                {
+                        level -= i;
+                }
+
+                void resetLevel ()
+                {
+                        level = 0;
                 }
 
                 int getLevel () const
@@ -66,11 +66,11 @@ class Player
 };
 
 
-void myButton (const char* text, int i, std::function<void(int)> callback)
+void changeLevel (const char* name, std::function<void()> callback)
 {
-        if (ImGui::Button(text))
+        if (ImGui::Button(name))
         {
-                callback(i);
+                callback();
         }
 }
 
@@ -137,17 +137,34 @@ int main ()
 
                 
 
+                std::function<void()> onLevelUp = [&player](){
+                        player.addLevel(1);
+                };
+                std::function<void()> onLevelDown = [&player](){
+                        player.removeLevel(1);
+                };
+                std::function<void()> onReset = [&player](){
+                        player.resetLevel();
+                };
 
-                myButton("+1", 1, [&player](int i){
-                        player.addLevel(i);
-                });
-                myButton("+5", 5, [&player](int i){
-                        player.addLevel(i);
-                });
-                myButton("+10", 10, [&player](int i){
-                        player.addLevel(i);
-                });
-                ImGui::Text("Level: %d", player.getLevel());
+                if (ImGui::Button("level up"))
+                {
+                        onLevelUp();
+                }
+                if (ImGui::Button("level down"))
+                {
+                        onLevelDown();
+                }
+                if (ImGui::Button("reset level"))
+                {
+                        onReset();
+                }
+
+                changeLevel("level up2", onLevelUp);
+                changeLevel("level down2", onLevelDown);
+                changeLevel("reset level2", onReset);
+
+                ImGui::Text("%d", player.getLevel());
 
 
 
