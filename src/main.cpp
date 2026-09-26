@@ -90,6 +90,8 @@ int main ()
         // Main Loop
         // -------------------------
         SetupTheme();
+
+        std::string onLevelUpAndChangeStatusLabel = "onLevelUp & changeStatus";
         
         while (!glfwWindowShouldClose(window))
         {
@@ -115,6 +117,8 @@ int main ()
                 addEventButton("add 5 level", PlayerEvents::onAdd5Level);
                 addEventButton("add x level", PlayerEvents::onAddLevel, 10);
 
+                
+                addEventButton(onLevelUpAndChangeStatusLabel.c_str(), PlayerEvents::onLevelUpChangeStatus, &onLevelUpAndChangeStatusLabel);
 
                 ImGui::Text("%d", PlayerEvents::player.getLevel());
 

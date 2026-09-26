@@ -20,6 +20,15 @@ namespace PlayerEvents {
                 player.addLevel(5);
         };
         inline auto onAddLevel = [](int i){
-            player.addLevel(i);
+                player.addLevel(i);
         };
+
+        inline auto changeStatus = [](std::string** status){
+                **status = "Player Leveled Up!";
+        };
+        inline void onLevelUpChangeStatus(std::string* status)
+        {
+                onLevelUp();
+                changeStatus(&status);
+        }
 }
