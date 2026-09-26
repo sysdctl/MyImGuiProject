@@ -83,8 +83,10 @@ int main ()
         // -------------------------
 
         io.Fonts->AddFontDefault();
-        ImFont* myFont = io.Fonts->AddFontFromFileTTF("/home/hamed/Projects/MyImGuiProject/assets/fonts/planetbe.ttf", 50.0f);
-        if (!myFont) { std::cout << "Failed to load this font";}
+        ImFont* titleFont = io.Fonts->AddFontFromFileTTF("/home/hamed/Projects/MyImGuiProject/assets/fonts/planetbe.ttf", 40.0f);
+        ImFont* normalFont = io.Fonts->AddFontFromFileTTF("/home/hamed/Projects/MyImGuiProject/assets/fonts/planetbe.ttf", 20.0f);
+        ImFont* smalllFont = io.Fonts->AddFontFromFileTTF("/home/hamed/Projects/MyImGuiProject/assets/fonts/planetbe.ttf", 14.0f);
+        if (!titleFont, normalFont, smalllFont) { std::cout << "Failed to load this font";}
 
         // -------------------------
         // ImGui Backends
@@ -132,8 +134,17 @@ int main ()
 
                 ImGui::Separator();
 
-                ImGui::PushFont(myFont);
-                ImGui::Text("Font Test");
+                ImGui::PushFont(titleFont);
+                ImGui::Text("PLAYER");
+                ImGui::PopFont();
+
+                ImGui::PushFont(normalFont);
+                ImGui::Text("player level");
+                ImGui::Text("level : 10");
+                ImGui::PopFont();
+
+                ImGui::PushFont(smalllFont);
+                ImGui::Text("this is a small status message");
                 ImGui::PopFont();
                 
                 ImGui::Button("Normal Button");
