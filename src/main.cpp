@@ -81,12 +81,13 @@ int main ()
         // -------------------------
         // ImGui Fonts
         // -------------------------
+        std::string fontPath = "/home/hamed/Projects/MyImGuiProject/assets/fonts/";
 
         io.Fonts->AddFontDefault();
-        ImFont* titleFont = io.Fonts->AddFontFromFileTTF("/home/hamed/Projects/MyImGuiProject/assets/fonts/planetbe.ttf", 40.0f);
-        ImFont* normalFont = io.Fonts->AddFontFromFileTTF("/home/hamed/Projects/MyImGuiProject/assets/fonts/planetbe.ttf", 20.0f);
-        ImFont* smalllFont = io.Fonts->AddFontFromFileTTF("/home/hamed/Projects/MyImGuiProject/assets/fonts/planetbe.ttf", 14.0f);
-        if (!titleFont, normalFont, smalllFont) { std::cout << "Failed to load this font";}
+        ImFont* titleFont = io.Fonts->AddFontFromFileTTF((fontPath + "planetbe.ttf").c_str(), 40.0f);
+        ImFont* normalFont = io.Fonts->AddFontFromFileTTF((fontPath + "planetbe.ttf").c_str(), 20.0f);
+        ImFont* smalllFont = io.Fonts->AddFontFromFileTTF((fontPath + "planetbe.ttf").c_str(), 14.0f);
+        if (!titleFont || !normalFont || !smalllFont) { std::cout << "Failed to load this font";}
 
         // -------------------------
         // ImGui Backends
