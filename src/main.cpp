@@ -22,6 +22,7 @@ void SetupTheme()
         style.WindowPadding = ImVec2(15.0f, 15.0f);
         style.FramePadding = ImVec2(8.0f, 6.0f);
         style.ItemSpacing = ImVec2(8.0f, 10.0f);
+        // style.WindowBorderSize = 0.0f;
 
         // Colors
         style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1804f, 0.1804f, 0.1804f, 1.0f);
@@ -64,6 +65,11 @@ int main ()
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+        // Different behavior on different OS (especially Windows on NVIDIA)
+        glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
+        //
+        // glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+        
         GLFWwindow* window = glfwCreateWindow(1280, 720, "My ImGui Project", nullptr, nullptr);
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
@@ -100,8 +106,6 @@ int main ()
         // Main Loop
         // -------------------------
         SetupTheme();
-
-        std::string onLevelUpAndChangeStatusLabel = "onLevelUp & changeStatus";
         
         while (!glfwWindowShouldClose(window))
         {
@@ -113,43 +117,22 @@ int main ()
 
                 // -------------------------// GUI // ------------------------- //
 
-                ImGui::SetNextWindowPos(ImVec2(25.0f ,25.0f));
-                ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x /2 - 25.0f - 12.5f, ImGui::GetIO().DisplaySize.y /2 - 25.0f - 12.5f));
+                ImGui::SetNextWindowPos(ImVec2(0, 0));
+                ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize));
 
-                ImGui::Begin("lambda");
+                ImGui::Begin("lambda", nullptr, 
+                        ImGuiWindowFlags_NoTitleBar |
+                        ImGuiWindowFlags_NoResize |
+                        ImGuiWindowFlags_NoMove |
+                        ImGuiWindowFlags_NoScrollbar |
+                        ImGuiWindowFlags_NoSavedSettings);
                         
 
-                
-                addEventButton("level up", PlayerEvents::onLevelUp);
-                addEventButton("level down", PlayerEvents::onLevelDown);
-                addEventButton("reset level", PlayerEvents::onReset);
 
-                addEventButton("add 5 level", PlayerEvents::onAdd5Level);
-                addEventButton("add x level", PlayerEvents::onAddLevel, 10);
+                ImVec2 available = ImGui::GetContentRegionAvail();
 
-                
-                addEventButton(onLevelUpAndChangeStatusLabel.c_str(), PlayerEvents::onLevelUpChangeStatus, &onLevelUpAndChangeStatusLabel);
+                ImGui::Text("available space : %.1f, %.1f", available.x, available.y);
 
-                ImGui::Text("%d", PlayerEvents::player.getLevel());
-
-
-                ImGui::Separator();
-
-                ImGui::PushFont(titleFont);
-                ImGui::Text("PLAYER");
-                ImGui::PopFont();
-
-                ImGui::PushFont(normalFont);
-                ImGui::Text("player level");
-                ImGui::Text("level : 10");
-                ImGui::PopFont();
-
-                ImGui::PushFont(smalllFont);
-                ImGui::Text("this is a small status message");
-                ImGui::PopFont();
-                
-                ImGui::Button("Normal Button");
-                
 
 
 
