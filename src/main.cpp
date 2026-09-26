@@ -78,6 +78,13 @@ int main ()
         ImGuiIO &io = ImGui::GetIO();
         (void)io;
         ImGui::StyleColorsDark();
+        // -------------------------
+        // ImGui Fonts
+        // -------------------------
+
+        io.Fonts->AddFontDefault();
+        ImFont* myFont = io.Fonts->AddFontFromFileTTF("/home/hamed/Projects/MyImGuiProject/assets/fonts/planetbe.ttf", 50.0f);
+        if (!myFont) { std::cout << "Failed to load this font";}
 
         // -------------------------
         // ImGui Backends
@@ -122,6 +129,15 @@ int main ()
 
                 ImGui::Text("%d", PlayerEvents::player.getLevel());
 
+
+                ImGui::Separator();
+
+                ImGui::PushFont(myFont);
+                ImGui::Text("Font Test");
+                ImGui::PopFont();
+                
+                ImGui::Button("Normal Button");
+                
 
 
 
